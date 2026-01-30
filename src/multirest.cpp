@@ -22,6 +22,7 @@ static const ClassRegistrar<MultiRest> s_factory("multiRest", MULTIREST);
 
 MultiRest::MultiRest()
     : LayerElement(MULTIREST)
+    , AccessibleInterface()
     , PositionInterface()
     , AttColor()
     , AttMultiRestVis()
@@ -43,6 +44,7 @@ MultiRest::~MultiRest() {}
 void MultiRest::Reset()
 {
     LayerElement::Reset();
+    AccessibleInterface::Reset();
     PositionInterface::Reset();
     this->ResetColor();
     this->ResetMultiRestVis();

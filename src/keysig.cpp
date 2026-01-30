@@ -391,6 +391,25 @@ int KeySig::GetOctave(data_ACCIDENTAL_WRITTEN accidType, data_PITCHNAME pitch, c
     return octave;
 }
 
+std::string KeySig::GetAccessibleTitlte() const
+{
+
+    if (this->HasSig()) {
+        auto sig = this->GetSig();
+        int count = sig.first;
+        data_ACCIDENTAL_WRITTEN type = sig.second;
+        if (count > 0) {
+            if (type == ACCIDENTAL_WRITTEN_f) {
+                return "Key signature " + std::to_string(count) + ((count == 1) ? " flat" : " flats");
+            }
+            else if (type == ACCIDENTAL_WRITTEN_s) {
+                return "Key signature " + std::to_string(count) + ((count == 1) ? " sharp" : " sharps");
+            }
+        }
+    }
+    return "Key signature: no accidentals";
+}
+
 //----------------------------------------------------------------------------
 // Functors methods
 //----------------------------------------------------------------------------

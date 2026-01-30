@@ -477,6 +477,14 @@ void System::ConvertToUnCastOffMensuralSystem()
     }
 }
 
+std::string System::GetAccessibleTitlte() const
+{
+    std::string title = "System";
+    int idx = this->GetSystemIdx() + 1; // 1-indexed for display
+    title += " " + std::to_string(idx);
+    return title;
+}
+
 //----------------------------------------------------------------------------
 // System functor methods
 //----------------------------------------------------------------------------

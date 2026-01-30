@@ -8,6 +8,7 @@
 #ifndef __VRV_SYL_H__
 #define __VRV_SYL_H__
 
+#include "accessibleinterface.h"
 #include "atts_shared.h"
 #include "facsimileinterface.h"
 #include "layerelement.h"
@@ -30,6 +31,7 @@ class TextElement;
  */
 
 class Syl : public LayerElement,
+            public AccessibleInterface,
             public TextListInterface,
             public OffsetInterface,
             public TimeSpanningInterface,
@@ -68,8 +70,8 @@ public:
     {
         return vrv_cast<const TimeSpanningInterface *>(this);
     }
-    ///@}
 
+public:
     /**
      * Add an element (text, rend. etc.) to a syl.
      * Only supported elements will be actually added to the child list.
@@ -114,6 +116,15 @@ public:
 
     /** Create a default zone for a syl based on syllable. */
     bool CreateDefaultZone(Doc *doc);
+
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+protected:
+    bool GetAriaHidden() const override { return true; }
 
 private:
     //

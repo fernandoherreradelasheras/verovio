@@ -8,6 +8,7 @@
 #ifndef __VRV_REST_H__
 #define __VRV_REST_H__
 
+#include "accessibleinterface.h"
 #include "altsyminterface.h"
 #include "atts_externalsymbols.h"
 #include "atts_mensural.h"
@@ -46,7 +47,8 @@ class Rest : public LayerElement,
              public AttEnclosingChars,
              public AttExtSymAuth,
              public AttExtSymNames,
-             public AttRestVisMensural {
+             public AttRestVisMensural,
+             public AccessibleInterface {
 public:
     /**
      * @name Constructors, destructors, reset and class name methods
@@ -75,6 +77,11 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     AltSymInterface *GetAltSymInterface() override { return vrv_cast<AltSymInterface *>(this); }
     const AltSymInterface *GetAltSymInterface() const override { return vrv_cast<const AltSymInterface *>(this); }
     OffsetInterface *GetOffsetInterface() override { return vrv_cast<OffsetInterface *>(this); }
@@ -83,6 +90,13 @@ public:
     const PositionInterface *GetPositionInterface() const override { return vrv_cast<const PositionInterface *>(this); }
     DurationInterface *GetDurationInterface() override { return vrv_cast<DurationInterface *>(this); }
     const DurationInterface *GetDurationInterface() const override { return vrv_cast<const DurationInterface *>(this); }
+    ///@}
+
+    /**
+     * @name Get accessibility title and description
+     */
+    ///@{
+    std::string GetAccessibleTitlte() const override;
     ///@}
 
     /** Override the method since alignment is required */

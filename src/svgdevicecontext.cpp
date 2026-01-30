@@ -19,6 +19,8 @@
 #include "floatingobject.h"
 #include "glyph.h"
 #include "layerelement.h"
+#include "note.h"
+#include "rest.h"
 #include "staff.h"
 #include "staffdef.h"
 #include "view.h"
@@ -58,6 +60,9 @@ SvgDeviceContext::SvgDeviceContext(const std::string &docId) : DeviceContext(SVG
     m_facsimile = false;
     m_useLiberation = false;
     m_indent = 2;
+
+    m_indent = 2;
+    m_aria = false;
 
     // create the initial SVG element
     // width and height need to be set later; these are taken care of in "commit"
@@ -269,6 +274,21 @@ void SvgDeviceContext::StartGraphic(
     this->AppendIdAndClass(gId, object->GetClassName(), gClassFull, graphicID);
     this->AppendAdditionalAttributes(object);
 
+    if (m_aria && object->GetAccessibleInterface()) {
+        const AccessibleInterface *accessibleInterface = object->GetAccessibleInterface();
+
+        if (accessibleInterface->GetAriaHidden()) {
+            m_currentNode.append_attribute("aria-hidden") = "true";
+        }
+        else {
+            std::string titleText = accessibleInterface->GetAccessibleTitlte();
+            if (!titleText.empty()) {
+                pugi::xml_node title = m_currentNode.append_child("title");
+                title.text().set(titleText.c_str());
+            }
+        }
+    }
+
     // Add data-plist with html5 (now only for annot)
     if (m_html5 && object->HasPlistReferences()) {
         auto plist = object->GetPlistReferences();
@@ -476,9 +496,17 @@ void SvgDeviceContext::StartPage()
 {
     // Initialize the flag to false because we want to know if the font needs to be included in the SVG
     m_vrvTextFont = false;
+    m_vrvTextFont = false;
     m_vrvTextFontFallback = false;
 
     const Resources *resources = this->GetResources();
+
+    if (m_aria) {
+        if (!m_svgNode.attribute("tabindex")) {
+            m_svgNode.append_attribute("tabindex") = "0";
+            m_svgNode.append_attribute("aria-label") = "Verovio output";
+        }
+    }
 
     // default styles
     if (this->UseGlobalStyling()) {
@@ -1413,5 +1441,4 @@ void SvgDeviceContext::DrawSvgBoundingBox(Object *object, View *view)
         }
     }
 }
-
 } // namespace vrv

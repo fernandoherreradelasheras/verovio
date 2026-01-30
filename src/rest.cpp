@@ -201,6 +201,7 @@ Rest::~Rest() {}
 void Rest::Reset()
 {
     LayerElement::Reset();
+    AccessibleInterface::Reset();
     AltSymInterface::Reset();
     DurationInterface::Reset();
     OffsetInterface::Reset();
@@ -636,6 +637,33 @@ FunctorCode Rest::AcceptEnd(Functor &functor)
 FunctorCode Rest::AcceptEnd(ConstFunctor &functor) const
 {
     return functor.VisitRestEnd(this);
+}
+
+std::string Rest::GetAccessibleTitlte() const
+{
+    std::string title;
+
+    // Add duration
+    if (this->HasDur()) {
+        std::string durStr = this->AttDurationLog::DurationToStr(this->GetDur());
+        if (durStr == "4")
+            durStr = "quarter";
+        else if (durStr == "2")
+            durStr = "half";
+        else if (durStr == "1")
+            durStr = "whole";
+        else if (durStr == "8")
+            durStr = "eighth";
+        else if (durStr == "16")
+            durStr = "sixteenth";
+        else if (durStr == "32")
+            durStr = "thirty-second";
+        title += StringFormat("%s ", durStr.c_str());
+    }
+
+    title += "rest";
+
+    return title;
 }
 
 } // namespace vrv

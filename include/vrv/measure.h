@@ -8,6 +8,7 @@
 #ifndef __VRV_MEASURE_H__
 #define __VRV_MEASURE_H__
 
+#include "accessibleinterface.h"
 #include "atts_cmn.h"
 #include "atts_shared.h"
 #include "barline.h"
@@ -76,6 +77,7 @@ public:
     }
     ///@}
 
+public:
     /**
      * Return true if measured music (otherwise we have fake measures)
      */

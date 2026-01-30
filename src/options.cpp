@@ -1185,6 +1185,10 @@ Options::Options()
     m_svgRemoveXlink.Init(false);
     this->Register(&m_svgRemoveXlink, "svgRemoveXlink", &m_general);
 
+    m_svgAria.SetInfo("SVG ARIA", "Enable ARIA accessibility features in SVG output");
+    m_svgAria.Init(false);
+    this->Register(&m_svgAria, "svgAria", &m_general);
+
     m_svgAdditionalAttribute.SetInfo("Add additional attribute in SVG",
         "Add additional attribute for graphical elements in SVG as \"data-*\", for "
         "example, \"note@pname\" would add a \"data-pname\" to all note elements");

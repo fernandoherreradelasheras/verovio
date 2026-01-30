@@ -53,6 +53,11 @@ bool Label::IsSupportedChild(ClassId classId)
     }
 }
 
+std::string Label::GetAccessibleTitlte() const
+{
+    return UTF32to8(this->GetText());
+}
+
 //----------------------------------------------------------------------------
 // Functor methods
 //----------------------------------------------------------------------------

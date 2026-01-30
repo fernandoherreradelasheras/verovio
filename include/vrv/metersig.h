@@ -8,6 +8,7 @@
 #ifndef __VRV_METERSIG_H__
 #define __VRV_METERSIG_H__
 
+#include "accessibleinterface.h"
 #include "atts_externalsymbols.h"
 #include "atts_shared.h"
 #include "atts_visual.h"
@@ -25,6 +26,7 @@ class ScoreDefInterface;
  * This class models the MEI <meterSig> element.
  */
 class MeterSig : public LayerElement,
+                 public AccessibleInterface,
                  public AttColor,
                  public AttEnclosingChars,
                  public AttExtSymNames,
@@ -45,6 +47,21 @@ public:
     std::string GetClassName() const override { return "meterSig"; }
     ///@}
 
+    /**
+     * @name Getter to interfaces
+     */
+    ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /** Override the method since alignment is required */
     bool HasToBeAligned() const override { return true; }
 

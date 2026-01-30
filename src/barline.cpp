@@ -170,6 +170,34 @@ std::pair<bool, int> BarLine::GetPlaceFromContext(const StaffDef *staffDef) cons
     return { false, 0 };
 }
 
+std::string BarLine::GetAccessibleTitlte() const
+{
+    std::string title = "";
+    if (this->HasForm()) {
+        data_BARRENDITION form = this->GetForm();
+        if (form == BARRENDITION_dbl) {
+            title += "Double bar line";
+        }
+        else if (form == BARRENDITION_end) {
+            title += "Final bar line";
+        }
+        else if (form == BARRENDITION_rptstart) {
+            title += "Repeat start bar line";
+        }
+        else if (form == BARRENDITION_rptend) {
+            title += "Repeat end bar line";
+        }
+        else if (form == BARRENDITION_rptboth) {
+            title += "Repeat both bar line";
+        }
+    }
+    const Measure *measure = dynamic_cast<const Measure *>(this->GetParent());
+    if (measure) {
+        title += " end of measure " + measure->GetN();
+    }
+    return title;
+}
+
 //----------------------------------------------------------------------------
 // Functors methods
 //----------------------------------------------------------------------------

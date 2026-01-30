@@ -26,6 +26,7 @@
 namespace vrv {
 
 class AltSymInterface;
+class AccessibleInterface;
 class AreaPosInterface;
 class Doc;
 class DurationInterface;
@@ -163,6 +164,8 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    virtual AccessibleInterface *GetAccessibleInterface() { return NULL; }
+    virtual const AccessibleInterface *GetAccessibleInterface() const { return NULL; }
     virtual AltSymInterface *GetAltSymInterface() { return NULL; }
     virtual const AltSymInterface *GetAltSymInterface() const { return NULL; }
     virtual AreaPosInterface *GetAreaPosInterface() { return NULL; }

@@ -240,6 +240,11 @@ public:
     void SetIndent(int indent) { m_indent = indent; }
 
     /**
+     * Setter for the aria option
+     */
+    void SetAria(bool aria) { m_aria = aria; }
+
+    /**
      * Set the SVG to have 'raw' formatting, with no extraneous whitespace or newlines.
      */
     void SetFormatRaw(bool rawFormat) { m_formatRaw = rawFormat; }
@@ -418,6 +423,9 @@ private:
     option_SMUFLTEXTFONT m_smuflTextFont;
     // the document id
     std::string m_docId;
+
+    // use aria attributes
+    bool m_aria;
 };
 
 } // namespace vrv

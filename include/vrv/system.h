@@ -8,6 +8,7 @@
 #ifndef __VRV_SYSTEM_H__
 #define __VRV_SYSTEM_H__
 
+#include "accessibleinterface.h"
 #include "drawinginterface.h"
 #include "editorial.h"
 #include "object.h"
@@ -33,7 +34,7 @@ class Staff;
  * A System is contained in a Page.
  * It contains Staff objects.
  */
-class System : public Object, public DrawingListInterface, public AttTyped {
+class System : public Object, public AccessibleInterface, public DrawingListInterface, public AttTyped {
 public:
     /**
      * @name Constructors, destructors, and other standard methods
@@ -46,6 +47,21 @@ public:
     std::string GetClassName() const override { return "system"; }
     ///@}
 
+    /**
+     * @name Getter to interfaces
+     */
+    ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /**
      * @name Methods for adding allowed content
      */

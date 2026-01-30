@@ -8,6 +8,7 @@
 #ifndef __VRV_MULTIREST_H__
 #define __VRV_MULTIREST_H__
 
+#include "accessibleinterface.h"
 #include "atts_cmn.h"
 #include "atts_shared.h"
 #include "atts_visual.h"
@@ -24,6 +25,7 @@ namespace vrv {
  * This class models the MEI <multiRest> element.
  */
 class MultiRest : public LayerElement,
+                  public AccessibleInterface,
                   public PositionInterface,
                   public AttColor,
                   public AttMultiRestVis,
@@ -47,6 +49,11 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     PositionInterface *GetPositionInterface() override { return vrv_cast<PositionInterface *>(this); }
     const PositionInterface *GetPositionInterface() const override { return vrv_cast<const PositionInterface *>(this); }
     ///@}

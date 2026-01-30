@@ -8,6 +8,7 @@
 #ifndef __VRV_MREST_H__
 #define __VRV_MREST_H__
 
+#include "accessibleinterface.h"
 #include "atts_cmn.h"
 #include "atts_shared.h"
 #include "layerelement.h"
@@ -27,6 +28,7 @@ class Staff;
  * This class models the MEI <mRest> element.
  */
 class MRest : public LayerElement,
+              public AccessibleInterface,
               public OffsetInterface,
               public PositionInterface,
               public AttColor,
@@ -51,6 +53,11 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     OffsetInterface *GetOffsetInterface() override { return vrv_cast<OffsetInterface *>(this); }
     const OffsetInterface *GetOffsetInterface() const override { return vrv_cast<const OffsetInterface *>(this); }
     PositionInterface *GetPositionInterface() override { return vrv_cast<PositionInterface *>(this); }
@@ -75,6 +82,9 @@ public:
     FunctorCode AcceptEnd(Functor &functor) override;
     FunctorCode AcceptEnd(ConstFunctor &functor) const override;
     ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
 
 private:
     //

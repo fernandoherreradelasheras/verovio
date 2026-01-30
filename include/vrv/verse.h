@@ -8,6 +8,7 @@
 #ifndef __VRV_VERSE_H__
 #define __VRV_VERSE_H__
 
+#include "accessibleinterface.h"
 #include "atts_shared.h"
 #include "layerelement.h"
 
@@ -21,6 +22,7 @@ class Syl;
 //----------------------------------------------------------------------------
 
 class Verse : public LayerElement,
+              public AccessibleInterface,
               public AttColor,
               public AttLang,
               public AttNInteger,
@@ -73,6 +75,21 @@ public:
     FunctorCode Accept(ConstFunctor &functor) const override;
     FunctorCode AcceptEnd(Functor &functor) override;
     FunctorCode AcceptEnd(ConstFunctor &functor) const override;
+    ///@}
+
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+protected:
+    /**
+     * @name Accessibility overrides
+     */
+    ///@{
+    std::string GetAccessibleTitlte() const override;
+    bool GetAriaHidden() const override { return false; }
     ///@}
 
 private:

@@ -7,6 +7,8 @@
 
 #include "note.h"
 
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 //----------------------------------------------------------------------------
 
@@ -104,6 +106,7 @@ void Note::Reset()
 {
     LayerElement::Reset();
     StemmedDrawingInterface::Reset();
+    AccessibleInterface::Reset();
     AltSymInterface::Reset();
     DurationInterface::Reset();
     OffsetInterface::Reset();
@@ -456,6 +459,49 @@ void Note::SetNoteGroup(ChordNoteGroup *noteGroup, int position)
 {
     m_noteGroup = noteGroup;
     m_noteGroupPosition = position;
+}
+
+std::string Note::GetAccessibleTitlte() const
+{
+    std::string title;
+
+    // Add duration
+    if (this->HasDur()) {
+        std::string durStr = this->AttDurationLog::DurationToStr(this->GetDur());
+        if (durStr == "4")
+            durStr = "quarter";
+        else if (durStr == "2")
+            durStr = "half";
+        else if (durStr == "1")
+            durStr = "whole";
+        else if (durStr == "8")
+            durStr = "eighth";
+        else if (durStr == "16")
+            durStr = "sixteenth";
+        else if (durStr == "32")
+            durStr = "thirty-second";
+        title += StringFormat("%s ", durStr.c_str());
+    }
+
+    if (this->HasPname()) {
+        std::string pitchStr = this->AttPitch::PitchnameToStr(this->GetPname());
+        std::transform(pitchStr.begin(), pitchStr.end(), pitchStr.begin(), ::toupper);
+        title += StringFormat("note %s", pitchStr.c_str());
+        if (this->HasOct()) {
+            title += StringFormat("%d", this->GetOct());
+        }
+    }
+    if (this->GetDrawingAccid()) {
+        switch (this->GetDrawingAccid()->GetAccid()) {
+            case ACCIDENTAL_WRITTEN_s: title += " sharp"; break;
+            case ACCIDENTAL_WRITTEN_ss: title += " double sharp"; break;
+            case ACCIDENTAL_WRITTEN_f: title += " flat"; break;
+            case ACCIDENTAL_WRITTEN_ff: title += " double flat"; break;
+            case ACCIDENTAL_WRITTEN_n: title += " natural"; break;
+            default: break;
+        }
+    }
+    return title;
 }
 
 int Note::GetDiatonicPitch() const

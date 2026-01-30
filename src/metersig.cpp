@@ -176,6 +176,29 @@ std::pair<char32_t, char32_t> MeterSig::GetEnclosingGlyphs(bool smallGlyph) cons
     return { 0, 0 };
 }
 
+std::string MeterSig::GetAccessibleTitlte() const
+{
+    std::string title = "Time signature ";
+    if (this->HasCount()) {
+        auto [counts, sign] = this->GetCount();
+        if (!counts.empty() && this->HasUnit()) {
+            int count = counts.front(); // Use the first count for simplicity
+            int unit = this->GetUnit();
+            title += std::to_string(count) + "/" + std::to_string(unit);
+        }
+    }
+    else if (this->HasSym()) {
+        data_METERSIGN sym = this->GetSym();
+        if (sym == METERSIGN_common) {
+            title += "common time";
+        }
+        else if (sym == METERSIGN_cut) {
+            title += "cut time";
+        }
+    }
+    return title;
+}
+
 //----------------------------------------------------------------------------
 // Functors methods
 //----------------------------------------------------------------------------

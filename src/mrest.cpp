@@ -31,6 +31,7 @@ static const ClassRegistrar<MRest> s_factory("mRest", MREST);
 
 MRest::MRest()
     : LayerElement(MREST)
+    , AccessibleInterface()
     , OffsetInterface()
     , PositionInterface()
     , AttColor()
@@ -55,6 +56,7 @@ MRest::~MRest() {}
 void MRest::Reset()
 {
     LayerElement::Reset();
+    AccessibleInterface::Reset();
     OffsetInterface::Reset();
     PositionInterface::Reset();
     this->ResetColor();
@@ -140,6 +142,11 @@ int MRest::GetOptimalLayerLocation(const Layer *layer, int defaultLocation) cons
     }
 
     return extremePoint;
+}
+
+std::string MRest::GetAccessibleTitlte() const
+{
+    return "Full measure rest";
 }
 
 } // namespace vrv

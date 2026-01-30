@@ -13,6 +13,7 @@
 
 //----------------------------------------------------------------------------
 
+#include "accessibleinterface.h"
 #include "atts_analytical.h"
 #include "atts_shared.h"
 #include "atts_visual.h"
@@ -42,6 +43,7 @@ struct KeyAccidInfo {
  * This class models the MEI <keySig> element.
  */
 class KeySig : public LayerElement,
+               public AccessibleInterface,
                public ObjectListInterface,
                public AttAccidental,
                public AttColor,
@@ -63,6 +65,21 @@ public:
     std::string GetClassName() const override { return "keySig"; }
     ///@}
 
+    /**
+     * @name Getter to interfaces
+     */
+    ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /** Override the method since alignment is required */
     bool HasToBeAligned() const override { return true; }
 

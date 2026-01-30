@@ -12,6 +12,7 @@
 
 //----------------------------------------------------------------------------
 
+#include "accessibleinterface.h"
 #include "accid.h"
 #include "altsyminterface.h"
 #include "atts_analytical.h"
@@ -66,7 +67,8 @@ class Note : public LayerElement,
              public AttStemsCmn,
              public AttStringtab,
              public AttTiePresent,
-             public AttVisibility {
+             public AttVisibility,
+             public AccessibleInterface {
 public:
     /**
      * @name Constructors, destructors, reset and class name methods
@@ -84,6 +86,11 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     AltSymInterface *GetAltSymInterface() override { return vrv_cast<AltSymInterface *>(this); }
     const AltSymInterface *GetAltSymInterface() const override { return vrv_cast<const AltSymInterface *>(this); }
     DurationInterface *GetDurationInterface() override { return vrv_cast<DurationInterface *>(this); }
@@ -228,6 +235,13 @@ public:
      * Get pitch class of the current note
      */
     int GetPitchClass() const;
+
+    /**
+     * @name Get accessibility title and description
+     */
+    ///@{
+    std::string GetAccessibleTitlte() const override;
+    ///@}
 
     /**
      * @name Checker, getter and setter for a note with which the stem is shared

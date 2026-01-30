@@ -8,6 +8,7 @@
 #ifndef __VRV_LABEL_H__
 #define __VRV_LABEL_H__
 
+#include "accessibleinterface.h"
 #include "object.h"
 
 namespace vrv {
@@ -19,7 +20,7 @@ namespace vrv {
 /**
  * This class models the MEI <label> element.
  */
-class Label : public Object, public TextListInterface {
+class Label : public Object, public AccessibleInterface, public TextListInterface {
 
 public:
     /**
@@ -34,6 +35,21 @@ public:
     std::string GetClassName() const override { return "label"; }
     ///@}
 
+    /**
+     * @name Getter to interfaces
+     */
+    ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /**
      * @name Methods for adding allowed content
      */

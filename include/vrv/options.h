@@ -678,6 +678,7 @@ public:
     OptionBool m_svgHtml5;
     OptionBool m_svgFormatRaw;
     OptionBool m_svgRemoveXlink;
+    OptionBool m_svgAria;
     OptionArray m_svgAdditionalAttribute;
     OptionDbl m_unit;
     OptionBool m_useFacsimile;

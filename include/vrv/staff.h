@@ -8,6 +8,7 @@
 #ifndef __VRV_STAFF_H__
 #define __VRV_STAFF_H__
 
+#include "accessibleinterface.h"
 #include "atts_shared.h"
 #include "drawinginterface.h"
 #include "facsimileinterface.h"
@@ -102,6 +103,7 @@ private:
  * For unmeasured music, one single Measure is added for simplifying internal processing
  */
 class Staff : public Object,
+              public AccessibleInterface,
               public VisibilityDrawingInterface,
               public FacsimileInterface,
               public AttCoordY1,
@@ -131,6 +133,11 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     FacsimileInterface *GetFacsimileInterface() override { return vrv_cast<FacsimileInterface *>(this); }
     const FacsimileInterface *GetFacsimileInterface() const override
     {
@@ -164,6 +171,10 @@ public:
     void AttributesToInternal() override;
     ///@}
 
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /**
      * @name Getters and setters for the rotation.
      * Used only with facsimile rendering.

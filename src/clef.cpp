@@ -224,6 +224,60 @@ char32_t Clef::GetClefGlyph(const data_NOTATIONTYPE notationtype) const
     return 0;
 }
 
+std::string Clef::GetAccessibleTitlte() const
+{
+    std::string title = "";
+    if (this->HasShape()) {
+        data_CLEFSHAPE shape = this->GetShape();
+        if (shape == CLEFSHAPE_G) {
+            title += "G clef";
+        }
+        else if (shape == CLEFSHAPE_F) {
+            title += "F clef";
+        }
+        else if (shape == CLEFSHAPE_C) {
+            title += "C clef";
+        }
+        else if (shape == CLEFSHAPE_perc) {
+            title += "Percussion clef";
+        }
+    }
+    if (this->HasLine()) {
+        int line = this->GetLine();
+        if (line == 1) {
+            title += " 1st line";
+        }
+        else if (line == 2) {
+            title += " 2nd line";
+        }
+        else if (line == 3) {
+            title += " 3rd line";
+        }
+        else if (line == 4) {
+            title += " 4th line";
+        }
+        else if (line == 5) {
+            title += " 5th line";
+        }
+    }
+    if (this->HasDis()) {
+        data_OCTAVE_DIS dis = this->GetDis();
+        if (dis == OCTAVE_DIS_8) {
+            title += " 8va";
+        }
+        else if (dis == OCTAVE_DIS_15) {
+            title += " 15ma";
+        }
+        if (this->GetDisPlace() == STAFFREL_basic_above) {
+            title += " above";
+        }
+        else if (this->GetDisPlace() == STAFFREL_basic_below) {
+            title += " below";
+        }
+    }
+    return title;
+}
+
 //----------------------------------------------------------------------------
 // Clef functors methods
 //----------------------------------------------------------------------------

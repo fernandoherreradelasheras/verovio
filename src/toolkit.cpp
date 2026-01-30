@@ -1741,6 +1741,7 @@ std::string Toolkit::RenderToSVG(int pageNo, bool xmlDeclaration)
     svg.SetHtml5(m_options->m_svgHtml5.GetValue());
     svg.SetFormatRaw(m_options->m_svgFormatRaw.GetValue());
     svg.SetRemoveXlink(m_options->m_svgRemoveXlink.GetValue());
+    svg.SetAria(m_options->m_svgAria.GetValue());
     svg.SetAdditionalAttributes(m_options->m_svgAdditionalAttribute.GetValue());
     svg.SetSmuflTextFont((option_SMUFLTEXTFONT)m_options->m_smuflTextFont.GetValue());
 

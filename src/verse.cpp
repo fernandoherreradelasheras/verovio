@@ -99,6 +99,19 @@ int Verse::AdjustPosition(int &overlap, int freeSpace, const Doc *doc)
     return nextFreeSpace;
 }
 
+std::string Verse::GetAccessibleTitlte() const
+{
+    std::string text = "Verse " + std::to_string(this->GetN()) + " ";
+    ListOfConstObjects syls = this->FindAllDescendantsByType(SYL);
+    for (const Object *obj : syls) {
+        const Syl *syl = vrv_cast<const Syl *>(obj);
+        if (syl) {
+            text += UTF32to8(syl->GetText());
+        }
+    }
+    return text;
+}
+
 //----------------------------------------------------------------------------
 // Verse functor methods
 //----------------------------------------------------------------------------

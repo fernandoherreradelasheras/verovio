@@ -8,6 +8,7 @@
 #ifndef __VRV_CLEF_H__
 #define __VRV_CLEF_H__
 
+#include "accessibleinterface.h"
 #include "atts_externalsymbols.h"
 #include "atts_shared.h"
 #include "layerelement.h"
@@ -26,6 +27,7 @@ class ScoreDefInterface;
  * This class models the MEI <clef> element.
  */
 class Clef : public LayerElement,
+             public AccessibleInterface,
              public OffsetInterface,
              public AttClefLog,
              public AttClefShape,
@@ -56,10 +58,19 @@ public:
      * @name Getter to interfaces
      */
     ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
     OffsetInterface *GetOffsetInterface() override { return vrv_cast<OffsetInterface *>(this); }
     const OffsetInterface *GetOffsetInterface() const override { return vrv_cast<const OffsetInterface *>(this); }
     ///@}
 
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /** Override the method since alignment is required */
     bool HasToBeAligned() const override { return true; }
 

@@ -137,6 +137,19 @@ int Staff::GetDrawingRotationOffsetFor(int x)
 {
     int xDiff = x - this->GetDrawingX();
     return int(xDiff * tan(this->GetDrawingRotation() * M_PI / 180.0));
+    return int(xDiff * tan(this->GetDrawingRotation() * M_PI / 180.0));
+}
+
+std::string Staff::GetAccessibleTitlte() const
+{
+    const Measure *measure = vrv_cast<const Measure *>(this->GetFirstAncestor(MEASURE));
+    assert(measure);
+    std::string title = "Measure " + measure->GetN();
+    if (this->HasN()) {
+        title += " Staff " + std::to_string(this->GetN());
+    }
+
+    return title;
 }
 
 void Staff::ClearLedgerLines()

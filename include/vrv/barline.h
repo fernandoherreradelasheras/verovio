@@ -8,6 +8,7 @@
 #ifndef __VRV_BARLINE_H__
 #define __VRV_BARLINE_H__
 
+#include "accessibleinterface.h"
 #include "atts_shared.h"
 #include "atts_visual.h"
 #include "layerelement.h"
@@ -27,6 +28,7 @@ enum class BarLinePosition { None, Left, Right };
  * This class models the MEI <barLine> element.
  */
 class BarLine : public LayerElement,
+                public AccessibleInterface,
                 public AttBarLineLog,
                 public AttBarLineVis,
                 public AttColor,
@@ -46,6 +48,21 @@ public:
     std::string GetClassName() const override { return "barLine"; }
     ///@}
 
+    /**
+     * @name Getter to interfaces
+     */
+    ///@{
+    AccessibleInterface *GetAccessibleInterface() override { return vrv_cast<AccessibleInterface *>(this); }
+    const AccessibleInterface *GetAccessibleInterface() const override
+    {
+        return vrv_cast<const AccessibleInterface *>(this);
+    }
+    ///@}
+
+protected:
+    std::string GetAccessibleTitlte() const override;
+
+public:
     /** Override the method since alignment is required */
     bool HasToBeAligned() const override { return true; }
 
